@@ -34,7 +34,7 @@ Remote_mac = ""
 # use USB UART or UART on pcDuino to communicate with zigbee gateway
 try:
     ser = serial.Serial("/dev/ttyUSB0", 115200,timeout = 0.1)
-except OSError:
+except serial.serialutil.SerialException:
     try:
 	ser = serial.Serial("/dev/ttyS1", 115200,timeout = 0.1)
         with open("/sys/devices/virtual/misc/gpio/mode/gpio0",'w') as UART_RX:
