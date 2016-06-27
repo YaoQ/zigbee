@@ -1,6 +1,7 @@
 # Linker ZigBee Gateway Module
 
 ![](http://openhapp.com/wp-content/uploads/2016/05/zigbee-6-768x470.jpg)
+
 Linker ZigBee gateway module is one kind of Linker modules which can communicate with up to 32 ZigBee node devices. It is powered by Marvell 88MZ100 ZigBee microcontroller SoC chip. This ZigBee offers advantages for many application scenarios, including lighting control, smart metering, home/building automation, remote controls and health care applications.
 
 ## Features
