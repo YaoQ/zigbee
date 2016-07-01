@@ -1,84 +1,97 @@
-# 如何构建基于ZigBee的智能家居
-
-本文将介绍如何使用Zigbee gateway模块与多种Zigbee设备进行通信，实现智能家居解决方案。
+# Linker ZigBee Gateway Module
 
 ![](http://openhapp.com/wp-content/uploads/2016/05/zigbee-6-768x470.jpg)
 
-### 准备材料
-* pcDuino3B 或 pcDuino8 Uno x 1  
-* [Zigbee Gateway 模块](http://openhapp.com/linker-zigbee-module/) x 1 
-* Linker Button x 1  
-* Linker Base shield x 1
-* [Zigbee 漏水传感器](http://openhapp.com/zigbee-sensors/) x 1
+Linker ZigBee gateway module is one kind of Linker modules which can communicate with up to 32 ZigBee node devices. It is powered by Marvell 88MZ100 ZigBee microcontroller SoC chip. This ZigBee offers advantages for many application scenarios, including lighting control, smart metering, home/building automation, remote controls and health care applications.
 
-## 具体步骤
-为了简化整个流程，本文只使用了一个Zigbee漏水警报器。
+## Features
+* Marvell MZ100 ZigBee SoC chip
+	* A ZigBee compliant platform and IEEE802.15.4-2003/2006 transceiver
+	* 32 bit ARM Cortex M3 microcontroller running at 32 or 64 MHz with Marvell’s proven peripheral IPs 
+	* On-chip DC-DC converter that can directly take input range from 2 volt to 3.6 volt 
+* UART serial communication protocol
+* Linker port with 4 pins
+* 3.3V
 
-#### 1. 注册登录[LinkSprite.io](www.linksprite.com)
-网页登录www.linksprite.io注册一个账号，并登录，在自己的账号下面建一个DIY设备，设备类型为00(Custom device type),设备名和设备分组可以随便。
+## Tutorial
+we will show how to interface Deepcam ZigBee sensors to LinkSpriteIO using the Linker ZigBee gateway, and serves as a basic framework for home automation sensors application.
 
-* 注册[www.linksprite.io](www.linksprite.com)
-* 登录此账号  
-* 创建一个设备，设备编号为00，设备名和设备分组可以自己DIY。 
+
+### Prerequisites
+* [pcDuino3B](http://store.cutedigi.com/pcduino3b-a20-single-board-computer-supports-arduino-programming-with-gbps-mac/) or [pcDuino8 Uno](http://store.cutedigi.com/pcduino8-uno-8-core-single-board-computer-arduino-headers-ubuntu-android/) x 1  
+* [ZigBee Gateway module](http://store.cutedigi.com/linker-zigbee-module-for-deepcam-zigbee-sensors/) x 1 
+* [Linker Button](http://store.cutedigi.com/button-module-of-linker-kit-for-pcduino-arduino/) x 1  
+* [Linker Base shield](http://store.cutedigi.com/base-shield-of-linker-kit-for-pcduino-arduino/) x 1
+* [ZigBee water leaking detector](http://store.cutedigi.com/water-detector/) x 1
+
+
+For simplicity, this tutorial uses only one ZigBee sensor: ZigBee water leak detector.
+
+### Steps
+
+#### 1. Register and login www.linksprite.com
+Go to www.linksprite.io, create an account if you don’t have one, and login, create a DIY device. The type is **00(Custom device type)**. The device name and device group can be arbitrary.  The following summarizes:
+
+* Go to **www.linksprite.io**
+* Create an account and login
+* Create a device with type 00, and arbitrary device name and group name.
+
 ![](picture/1.png)
 
-* 获取设备的deviceID
+* Obtain deviceID
+
 ![](picture/2.png)
 
-* 获取设备的apikey
+* Obtain apikey
+
 ![](picture/3.png)
 
-### 硬件连接
-根据下图将Zigbee gateway等设备与pcDuino 3B相连。
+#### 2. Hardware connection
+According to the following diagram to connect pcDuino3B, ZigBee gateway and other equipment.
+
 ![](picture/4.png) 
 
-### 下载并运行Zigbee code
-启动pcDuino3B，
-打开一个终端，在github上获取需要的代码，修改代码中的deviceID和apikey,运行代码并添加一个设备。
+#### 3. Download the ZigBee gateway demo code
+Turn on pcDuino3B, open a terminal and download the zigBee gateway code from the [github](https://github.com/YaoQ/zigbee.git). We also need to modify the **deviceID** and **apikey** with yours, run the code and add a ZigBee device.
 
-* 下载源文件
+* Download source files  
 `git clone https://github.com/YaoQ/zigbee.git`
-* 根据上面获取的apikey和deviceID修改代码中的apikey和deviceID
+
+* Modify apikey and deviceID using the ones obtained above.
+ 
 ```
-cd zigbee
-vim zigbee.py
-```
+	cd zigbee           
+	vim zigbee.py  
+```  
+
 ![](picture/5.png)
 
-* 添加第一个设备Leak Sensors    
+**Note**: You have to install [pyserial](pyserial) in the system.
 
-运行zigbee.py程序
+#### 4. Add the first device  
+
+* Run the ZigBee.py program  
 ```
-python zigbee.py
-```
+python zigbee.py   
+```  
 ![](picture/6.png)  
-用卡针戳Leak Sensor的RST，直至上面的绿色LED快速闪烁,此时便可以添加设备，按下Linker button添加设备。
+
+Press and hold the **RST pin** hole of the water sensor until the green LED blink fast.  Now we can start to add device by pressing the linker button:
+
 ![](picture/7.png) 
 ![](picture/8.png)  
-  
-到这里我们的Leak Sensor已经添加成功，此时我们可以linksprite.io观察Leak Sensor的状态了。Leak Sensor是一个漏水检测的传感器，我们此时将它的触角放到有水的地方，然后便可以在linksprite.io看到状态的变化了。
+
+Till now, we added water detector successfully to the ZigBee gateway. Now we can observe the status of the water detector on www.linksprite.io web portal. Water detector is a water leakage detector, when we place it on the place that has water, we can see status change on the web portal.
+
 ![](picture/9.png)
 
-### 如何添加更多的zigbee设备
-按照上述的步骤我们已经可以添加一个设备了，接着我们继续添加其它设备。在zigbee.py程序运行的情况下：
-* 按住复位空若干秒，使得传感器的绿色LED灯快速闪烁，进入复位状态
-* 按下Linker button添加设备，等待添加完成
-* 当程序添加完设备，获取zone type信息时，设备添加完成
-* 此时，gateway已经可以获取传感器的报警信息，并可以上传到了LinkSprite.io
+#### 5. How to add more ZigBee devices
+Follow the steps above, we have been able to add a device, and we continue to add other devices. In the case of ZigBee.py program:
 
-### 更多设备
-**1. 人体热释电传感器**
+* Press and hold the reset for several seconds, the sensor's Green LED flashing rapidly, enter the reset State
+* Press Linker button add equipment，wait for complete
+* When you are finished adding the device, get the zone type information, equipment added
+* At this point, the gateway can already get sensor alarm information, and can be uploaded to the LinkSprite.io
 
-![](http://openhapp.com/wp-content/uploads/2016/04/PIR-250x250.jpg)
-
-**2. 烟雾报警器**
-
-![](http://openhapp.com/wp-content/uploads/2016/04/Smoke_sensor-300x300.jpg)
-
-**3. 门磁传感器**
-
-<img src="http://openhapp.com/wp-content/uploads/2016/04/DoorSensor-768x768.png" width=300>
-
-更多zigbee设备可以参考如下链接：
-http://openhapp.com/zigbee-sensors/
+More sensors can be found at [here](http://store.cutedigi.com/sensor/).
 
