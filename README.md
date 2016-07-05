@@ -66,7 +66,7 @@ Turn on pcDuino3B, open a terminal and download the zigBee gateway code from the
 
 ![](picture/5.png)
 
-**Note**: You have to install [pyserial](pyserial) in the system.
+**Note**: You have to install [pyserial](https://pypi.python.org/pypi/pyserial) in the system.
 
 #### 4. Add the first device  
 
