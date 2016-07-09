@@ -28,6 +28,7 @@ we will show how to interface Deepcam ZigBee sensors using the Linker ZigBee gat
 ### Commands to communicate with zigbee sensor
 
 #### 1. Set Permit Join
+
 |Attribute Name | Type |Note|
 |---|---|---|
 |CMD Length| Uint8|0x02|
@@ -36,8 +37,10 @@ we will show how to interface Deepcam ZigBee sensors using the Linker ZigBee gat
 
 
 **Example**
+
 1. Send:
 [UART] 02 75 1E
+
 2. Success response:
 [UART] 02 8A 00
 
@@ -51,7 +54,7 @@ After a while, gateway will get the following message.
 Sent after zigbee gateway sends Transport Key to the joining device or received a ZDP Device Announcement.
 
 | Attribute name | Type | Note|
-|--------|--------|
+|--------|--------|--------|
 |  CMD Length    |  Uint8 | 0x0E|
 | CMD ID| Uint8|0xFC|
 | Flag| Uint8|0x02|
@@ -71,7 +74,7 @@ Transport Key has been sent to a node whose short address is 0x443B and IEEE add
 **Get Gateway IEEE Address Request**
 
 | Attribute name | Type | Note|
-|--------|--------|
+|--------|--------|--------|
 |  CMD Length    |  Uint8 | 0x02|
 | CMD ID| Uint8|0x14|
 | Sub CMD ID| Uint8 | 0x6F|
@@ -79,7 +82,7 @@ Transport Key has been sent to a node whose short address is 0x443B and IEEE add
 **Get Gateway IEEE Address Response**
 
 | Attribute name | Type | Note|
-|--------|--------|
+|--------|--------|--------|
 |  CMD Length    |  Uint8 | 0x0C|
 | CMD ID| Uint8|0x15|
 | Flag| Uint8|0x02|
@@ -96,7 +99,7 @@ The Gateway’s IEEE Address is 00:50:43:C9:9F:26:9E:4D
 **Note**:Before sending any other commands in this section, the first step is to set the APS(Application Support Sublayer) Header parameters for the next ZCL(ZigBee Cluster Library) command.
 
 | Attribute name | Type | Note|
-|--------|--------|
+|--------|--------|-------|
 |CMD Length |Uint8|0x0C|      
 |CMD ID     |Uint8|0xFC-ZCL Request| 
 |Flag       |Uint8|0x02-ZCL Special Command|
@@ -118,7 +121,7 @@ Set source endpoint to 0x01, destination endpoint to 0x01, destination address t
 ZDP(ZigBee Device Profile) Bind Request
 
 | Attribute name | Type | Note|
-|--------|--------|
+|--------|--------|--------|
 |CMD Length |Uint8|0x16|
 |CMD ID|Uint8|0xD8|
 |Source IEEE Address  |Uint64||
@@ -139,7 +142,7 @@ Response:
 **Request**
 
 | Attribute name | Type | Note|
-|--------|--------|
+|--------|--------|--------|
 |CMD Length |Uint8|0x08|
 |CMD ID| Uint8| 0xFC|
 |Flag|Uint8|0x00-From ZCL Client to ZCL server|
@@ -151,7 +154,7 @@ Response:
 **Response**
 
 | Attribute name | Type | Note|
-|--------|--------|
+|--------|--------|--------|
 |CMD Length |Uint8|0x08|
 |CMD ID| Uint8| 0xFC|
 |Flag|Uint8|0x03|
@@ -171,7 +174,7 @@ Response:
 **Zone Type**
 
 | Sensor Name | Zone Type |
-|--------|--------|
+|--------|--------|-------|
 | Door Detector| 0x15 0x00|
 |  Motion Detector  |  0x0d 0x00      |
 | Water sensor| 0x2a 0x00|
@@ -182,7 +185,7 @@ Response:
 **Request**
 
 | Attribute name | Type | Note|
-|--------|--------|
+|--------|--------|--------|
 |CMD Length |Uint8|0x18|
 |CMD ID| Uint8| 0xFC|
 |Flag|Uint8|0x00|
@@ -208,8 +211,10 @@ Response:
 |State|Uint8|0x00|
 
 **Example**
+
 1. Send:
 [UART] 11 FC 00 01 00 06 01 00 21 00 20 0a 00 0e 00 01 00 00
+
 2. Success response:
 [UART] 06 FD 00 01 00 06 00
 
@@ -233,7 +238,7 @@ Response:
 [UART]15 FE 01 00 05 00 01 02 7B D0 00 D0 00 01 00 00 **21 00** 00 00 00 00
 
 | Sensor Name | Open/Activated |
-|--------|--------|
+|--------|--------|-------|
 | Door Detector| 0x20 0x00|
 | Motion Detector  |  0x21 0x00      |
 | Water sensor| 0x21 0x00|
@@ -243,7 +248,7 @@ Response:
 **Request**
 
 | Attribute name | Type | Note|
-|--------|--------|
+|--------|--------|------|
 |CMD Length |Uint8|0x0C|
 |CMD ID| Uint8| 0xE4|
 |IEEE Address|Uint64|0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00|
@@ -254,15 +259,17 @@ Response:
 **Reponse**
 
 | Attribute name | Type | Note|
-|--------|--------|
+|--------|--------|-------|
 |CMD Length |Uint8|0x0A|
 |CMD ID| Uint8| 0x7B|
 |IEEE Address|Uint64||
 |Type|Uint8|0x00|
 
 **Example**
+
 1. Send:
 [UART] 0C E4 00 00 00 00 00 00 00 00 00 **AA BB**
+
 2. Response:
 [UART] 0A 7B **69 53 37 53 C9 43 50 00** 00
 
