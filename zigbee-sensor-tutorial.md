@@ -91,7 +91,9 @@ Transport Key has been sent to a node whose short address is 0x443B and IEEE add
 | IEEE MAC Address Length|Uint8|0x08 |
 | IEEE MAC Addr| Uint64||
 
+**Example**
 The Gateway’s IEEE Address is 00:50:43:C9:9F:26:9E:4D
+
 [UART] 0C 15 00 6F 08 **4D 9E 26 9F C9 43 50 00**
 
 
@@ -112,10 +114,13 @@ The Gateway’s IEEE Address is 00:50:43:C9:9F:26:9E:4D
 |Tx Options|Uint8|0x02|
 |Radius |Uint8|0x0A|
 
-Set source endpoint to 0x01, destination endpoint to 0x01, destination address to 0xAE3E.
+**Example**
+
+1. Set source endpoint to 0x01, destination endpoint to 0x01, destination address to 0xAE3E.
 [UART] 0C FC 02 01 04 01 01 01 02 3E AE 02 0A
-**Response**
-04 FD 02 01 00 :success
+
+2. Success response:
+04 FD 02 01 00
 
 ### 5. ZDP bind
 ZDP(ZigBee Device Profile) Bind Request
@@ -132,10 +137,11 @@ ZDP(ZigBee Device Profile) Bind Request
 | Destination Endpoint| Uint8|
 
 **Example**:
-Send:
+
+1. Send:
 [UART] 16 D8 69 53 37 53 C9 43 50 00 01 05 00 03 1D 4F 28 0F C9 43 50 00 01
 
-Response:
+2. Response:
 [UART] 02 D9 00
 
 ### 6. Read ZCL Attribute Request and response
@@ -166,8 +172,10 @@ Response:
 |Zone Type|Uint16||
 
 **Example**
+
 1. Send:
 [UART] 08 FC 00 00 05 00 01 01 00
+
 2. Success respone:
 [UART] 0B FE 03 00 05 01 01 00 00 31 **28 00**
 
@@ -221,7 +229,7 @@ Response:
 ### 9. Device Alarm Reporting
 
 | Attribute name | Type | Note|
-|--------|--------|
+|--------|--------|-------|
 |CMD Length |Uint8|0x15|
 |CMD ID| Uint8| 0xFE|
 |Flag|Uint8|0x01|
