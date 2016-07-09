@@ -1,6 +1,6 @@
-# The ZigBee Sesnor Gateway
+# Commands for interfacing ZigBee Sensor Device
 
-## Zigbee device list
+## ZigBee device list
 
 |Motion detector| Smoke sensor|
 |:---:|:---:|
@@ -10,7 +10,7 @@
 |**Temperature and Humidity Sensor**|**CO Sensor**|
 |![](http://openhapp.com/wp-content/uploads/2016/04/temperatuer_humidatiy-768x797.png)|![](http://openhapp.com/wp-content/uploads/2016/04/CO-768x769.jpg)|
 
-These zigbee node devices support ZHA standard protocol.
+These ZigBee node devices support ZHA standard protocol.
 
 Linker ZigBee gateway module is one kind of Linker modules which can communicate with up to 32 ZigBee node devices. It is powered by Marvell 88MZ100 ZigBee microcontroller SoC chip. This ZigBee offers advantages for many application scenarios, including lighting control, smart metering, home/building automation, remote controls and health care applications.
 
@@ -22,10 +22,10 @@ we will show how to interface Deepcam ZigBee sensors using the Linker ZigBee gat
 ### Prerequisites
 
 * [ZigBee Gateway module](http://store.cutedigi.com/linker-zigbee-module-for-deepcam-zigbee-sensors/) x 1 
-* [Zigbee sensors ](http://openhapp.com/zigbee-sensors/)
+* [ZigBee sensors ](http://openhapp.com/zigbee-sensors/)
 
 
-### Commands to communicate with zigbee sensor
+### Commands to communicate with ZigBee sensor
 
 #### 1. Set Permit Join
 
@@ -35,7 +35,6 @@ we will show how to interface Deepcam ZigBee sensors using the Linker ZigBee gat
 |CMD ID|Uint8|0x75|
 |Permit Join|Uint8|0x00 – Always off; 0xFF – Always on; Other values – Turn on permit join for a period of time|
 
-
 **Example**
 
 1. Send:
@@ -44,14 +43,17 @@ we will show how to interface Deepcam ZigBee sensors using the Linker ZigBee gat
 2. Success response:
 [UART] 02 8A 00
 
-Insert the pin to the reset hole and hold, until the green light is blinking very fast. If the light is blicking is not fast, just release the pin and insert it again until it is blinking very fast.
+**Note**:
+How to reset ZigBee node device and let it join into the ZigBee gateway？
 
-This will set the zigbee sensor into reset mode.
-
-After a while, gateway will get the following message.
+1. Insert the pin to the reset hole and hold, until the green light is blinking very fast. 
+2. If the light blinking is not fast, just release the pin and insert it again until it is blinking very fast.
+3. This will set the ZigBee sensor into reset mode.
+4. Send **Set Permit Join** commands to join
+5. After a while, gateway will get the response--** New Device Joined Indication**
 
 #### 2. New Device Joined Indication
-Sent after zigbee gateway sends Transport Key to the joining device or received a ZDP Device Announcement.
+Sent after ZigBee gateway sends Transport Key to the joining device or received a ZDP Device Announcement.
 
 | Attribute name | Type | Note|
 |--------|--------|--------|
@@ -92,12 +94,15 @@ Transport Key has been sent to a node whose short address is 0x443B and IEEE add
 | IEEE MAC Addr| Uint64||
 
 **Example**
-The Gateway’s IEEE Address is 00:50:43:C9:9F:26:9E:4D
 
+1. Send: [UART] 02 14 6F
+
+2. The Gateway’s IEEE Address is 00:50:43:C9:9F:26:9E:4D
 [UART] 0C 15 00 6F 08 **4D 9E 26 9F C9 43 50 00**
 
 
 #### 4. Set APS Header Parameters
+
 **Note**:Before sending any other commands in this section, the first step is to set the APS(Application Support Sublayer) Header parameters for the next ZCL(ZigBee Cluster Library) command.
 
 | Attribute name | Type | Note|
@@ -122,7 +127,7 @@ The Gateway’s IEEE Address is 00:50:43:C9:9F:26:9E:4D
 2. Success response:
 04 FD 02 01 00
 
-### 5. ZDP bind
+#### 5. ZDP bind
 ZDP(ZigBee Device Profile) Bind Request
 
 | Attribute name | Type | Note|
@@ -144,7 +149,7 @@ ZDP(ZigBee Device Profile) Bind Request
 2. Response:
 [UART] 02 D9 00
 
-### 6. Read ZCL Attribute Request and response
+#### 6. Read ZCL Attribute Request and response
 **Request**
 
 | Attribute name | Type | Note|
@@ -188,7 +193,7 @@ ZDP(ZigBee Device Profile) Bind Request
 | Water sensor| 0x2a 0x00|
 | Smoke sensor | 0x28 0x00|
 
-### 7. Report configuration
+#### 7. Report configuration
 
 **Request**
 
@@ -226,7 +231,7 @@ ZDP(ZigBee Device Profile) Bind Request
 2. Success response:
 [UART] 06 FD 00 01 00 06 00
 
-### 9. Device Alarm Reporting
+#### 8. Device Alarm Reporting
 
 | Attribute name | Type | Note|
 |--------|--------|-------|
@@ -245,11 +250,38 @@ ZDP(ZigBee Device Profile) Bind Request
 **Example**
 [UART]15 FE 01 00 05 00 01 02 7B D0 00 D0 00 01 00 00 **21 00** 00 00 00 00
 
+**Sensor state**
+
 | Sensor Name | Open/Activated |
 |--------|--------|-------|
 | Door Detector| 0x20 0x00|
 | Motion Detector  |  0x21 0x00      |
 | Water sensor| 0x21 0x00|
+
+
+#### 9. Battery level reporting
+
+| Attribute name | Type | Note|
+|--------|--------|-------|
+|CMD Length |Uint8|0x13|
+|CMD ID| Uint8| 0xFE|
+|Flag|Uint8|0x03|
+|Cluster ID| Uint8|0x01 0x00|
+|Command ID| Uint8|0x0A|
+|Source Endpoint|Uint8|0x01|
+|Source address type| Uint8|0x02-Short address|
+|Source short address|Uint16||
+|Unkown|Uint16| 0x00 0x4B|
+|Reserved|Uint32|0x00 0x01 0x00 0x00|
+|Zone State|Uint16|0x21 0x00|
+|Data Type|Uint8|0x20-Uint8|
+|Battery Level|Uint8||
+
+**Example**
+Receive: [UART] 13 FE 03 01 00 0A 01 02 **6D 4B** 00 4B 00 01 00 00 21 00 20 **BC**
+
+Battery level = (0xBC/2) %= 94%
+
 
 ### 10. Unbind Device
 
@@ -281,6 +313,6 @@ ZDP(ZigBee Device Profile) Bind Request
 2. Response:
 [UART] 0A 7B **69 53 37 53 C9 43 50 00** 00
 
-
-
+**Note**: When you use gateway send command to ZigBee node device and want it response, you have to make sure the ZigBee node device is not in sleep mode, or you will always fail to communication with ZigBee node device. You can click the **reset hole** to activate the ZigBee node device.
+![](./picture/8.png)
 
