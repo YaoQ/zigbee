@@ -215,7 +215,7 @@ ZDP(ZigBee Device Profile) Bind Request
 **Response**
 
 | Attribute name | Type | Note|
-|--------|--------|
+|--------|--------|----------|
 |CMD Length |Uint8|0x06|
 |CMD ID| Uint8| 0xFD|
 |Flag|Uint8|0x00|
@@ -314,5 +314,6 @@ Battery level = (0xBC/2) %= 94%
 [UART] 0A 7B **69 53 37 53 C9 43 50 00** 00
 
 **Note**: When you use gateway send command to ZigBee node device and want it response, you have to make sure the ZigBee node device is not in sleep mode, or you will always fail to communication with ZigBee node device. You can click the **reset hole** to activate the ZigBee node device.
+
 ![](./picture/8.png)
 
