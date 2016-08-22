@@ -26,6 +26,7 @@ Setting the temperature and  humidity report are different.So we separate theses
 ### Temperature
 
 **1. Set Permit Join**
+
 send: 02 75 1e
 
 recv: 02 8a 00
@@ -35,38 +36,45 @@ Get the short address of device : B1 96
 Get the MAC address of device : 5E 59 39 53 C9 43 50 00
 
 **2. Get the information**
+
 send: 04 c8 b1 96 01
 
 recv: 19 C9 00 B1 96 14 01 04 01 02 03 00 05 00 00 03 00 02 04 01 00 09 00 01 19 00
 
 **3. set target**
+
 send: 0c fc 02 01 04 01 01 01 02 **b1 96** 02 0a
 
 recv: 04 FD 02 01 00 
 
 **4. Get the MAC address of ZiBee gateway**
+
 send: 02 14 6f
 
 recv: 0C 15 00 6F 08 62 43 39 1F C9 43 50 00 
 Gateway Mac: 62 43 39 1F C9 43 50 00 
 
 ** 5. Bind device to communication**
+
 send: 16 d8 **5E 59 39 53 C9 43 50 00** 01 02 04 03 **62 43 39 1F C9 43 50 00** 01
 
 recv: 02 D9 00
 
 ** 6. Configure report **
+
 send: 11 fc 00 02 04 06 01 00 00 00 29 05 00 05 00 01 00 00
 
 recv: 06 FD 00 02 04 06 00 
 
 ** 7. Temperature report message**
+
 recv: 14 FE 03 **02 04** 0A 01 02 B1 96 00 96 00 01 00 00 00 00 29 **F5 0A**
 
 Temperature is : 0x0AF5/100=28.05℃
 
 
 #### Humidity
+
 ** 1. Set Permit Join**
 
 send:02 75 1e
@@ -77,11 +85,13 @@ Get the short address of device : 1B 37
 Get the MAC address of device : 5E 59 39 53 C9 43 50 00
 
 ** 2. Get the information ** 
+
 send: 04 c8 1b 37 01
 
 recv: 19 C9 00 1B 37 14 01 04 01 02 03 00 05 00 00 03 00 02 04 01 00 09 00 01 19 00  
 
 **3. set target**
+
 send: 0c fc 02 01 04 01 01 02 02 1b 37 02 0a
 
 recv: 04 FD 02 01 00 
@@ -102,6 +112,7 @@ send: 16 d8 5E 59 39 53 C9 43 50 00 02 05 04 03 62 43 39 1F C9 43 50 00 01
 recv: 02 D9 00
 
 ** 6. Configure report **
+
 send: 11 fc 00 05 04 06 01 00 00 00 21 05 00 05 00 01 00 00   
 
 recv: 06 FD 00 05 04 06 00 
