@@ -62,7 +62,7 @@ send: 16 d8 **5E 59 39 53 C9 43 50 00** 01 02 04 03 **62 43 39 1F C9 43 50 00** 
 
 recv: 02 D9 00
 
-**6. Configure report **
+**6. Configure report**
 
 send: 11 fc 00 02 04 06 01 00 00 00 29 05 00 05 00 01 00 00
 
@@ -88,7 +88,7 @@ Get the short address of device : 1B 37
 
 Get the MAC address of device : 5E 59 39 53 C9 43 50 00
 
-**2. Get the information ** 
+**2. Get the information** 
 
 send: 04 c8 1b 37 01
 
