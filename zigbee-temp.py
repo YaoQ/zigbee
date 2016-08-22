@@ -24,6 +24,15 @@ except Exception:
         print "serial failed!"
         exit()
 
+def hexShow(argv):
+    result = ''
+    hLen = len(argv)
+    for i in xrange(hLen):
+        hvol = ord(argv[i])
+        hhex = '%02x'%hvol
+        result += hhex+' '
+    return result
+
 def register():
     while True:
         ser.write('\x02')
@@ -162,7 +171,31 @@ def report_hum():
                  print "send report ok"
                  break
         time.sleep(0.2)
-    
+
+def get_tmp():
+    val=register()
+    short = val[0:5]
+    print "short:"+short    
+    mac = val[6:29]
+    print "mac:"+mac
+    gatmac = gateway_mac()
+    print "gatewaymac:"+gatmac
+    set_target_tmp(short)
+    bind_tmp(mac,gatmac)
+    report_tmp()
+
+def get_hum():
+    val=register()
+    short = val[0:5]
+    print "short:"+short
+    mac = val[6:29]
+    print "mac:"+mac
+    gatmac = gateway_mac()
+    print "gatewaymac:"+gatmac
+    set_target_hum(short)
+    bind_hum(mac,gatmac)
+    report_hum()
+
 
 def msg():
     line = ser.readline()
@@ -170,6 +203,34 @@ def msg():
     leng = len(val)
     if leng >= 40:
         print val
+        a = val.find("01 02",0)
+        b = val.find("02 02",0)
+        if a != -1:
+            tmp = val[a+39:a+44].replace(' ','')
+            t = "0x" + tmp[2:4] + tmp[0:2]
+            temp = int(t,16)
+            print "tem:"
+            print temp/100.0
+        if b != -1:
+            hum = val[b+39:b+44].replace(' ','')
+            h= "0x" + hum[2:4] + hum[0:2]
+            temp = int(h,16)
+            print "hum:"
+            print temp/100.0
 
 
-
+def main():
+    if ser.isOpen() == True:
+        print "serial open succeed!"
+    else:
+        print "serial open failure!"
+    #get_tmp()
+    #get_hum()
+    while True:
+        msg()
+        
+if __name__=='__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        ser.close()
